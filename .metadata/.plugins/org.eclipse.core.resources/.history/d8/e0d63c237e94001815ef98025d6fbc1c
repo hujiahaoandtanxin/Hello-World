@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hujiahao.dao.WiremanMapper">
+  <resultMap id="BaseResultMap" type="com.hujiahao.model.Wireman">
+    <id column="wireman_id" jdbcType="INTEGER" property="wiremanId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="head_pic_url" jdbcType="VARCHAR" property="headPicUrl" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="cred_pic_url" jdbcType="LONGVARCHAR" property="credPicUrl" />
+    <result column="cred_status" jdbcType="VARCHAR" property="credStatus" />
+     <result column="detail" jdbcType="VARCHAR" property="detail" />
+  </resultMap>
+  
+  <resultMap type="com.hujiahao.model.Wireman" id="WiremanAndOrder">
+  	<id column="wireman_id" jdbcType="INTEGER" property="wiremanId" />
+  	 <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+	<collection property="orderList" ofType="com.hujiahao.model.Order">
+  	<id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="wireman_id" jdbcType="INTEGER" property="wiremanId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="telphone" jdbcType="INTEGER" property="telphone" />
+    <association property="user" javaType="com.hujiahao.model.User">
+    <result property="username" column="username" />
+    <result column="nick_name" property="nickName" />
+    </association>
+  </collection>
+  	
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List">
+    wireman_id, username, password, open_id, nick_name, head_pic_url, sex, mobile_phone, 
+    status, idcard, cred_pic_url, cred_status ,detail
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from 'wireman'
+    where wireman_id = #{wiremanId,jdbcType=INTEGER}
+  </select>
+  
+  <!--通过openid查询电工信息+订单信息+用户信息  订单的显示   -->
+  <select id="selectWiremanByOpenid" parameterType="java.lang.String" resultMap="WiremanAndOrder">
+  	SELECT  
+  	FROM wireman w, `order` o , `user` u WHERE o.order_status = #{orderStatus} AND w.open_id = {#openId} AND u.user_id = o.user_id AND w.wireman_id = o.wireman_id
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from 'wireman'
+    where wireman_id = #{wiremanId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hujiahao.model.Wireman">
+    insert into 'wireman' (wireman_id, username, password, 
+      open_id, nick_name, head_pic_url, 
+      sex, mobile_phone, status, 
+      idcard, cred_pic_url, cred_status
+      )
+    values (#{wiremanId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{openId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{headPicUrl,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{idcard,jdbcType=VARCHAR}, #{credPicUrl,jdbcType=LONGVARCHAR}, #{credStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hujiahao.model.Wireman">
+    insert into 'wireman'
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wiremanId != null">
+        wireman_id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="headPicUrl != null">
+        head_pic_url,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="idcard != null">
+        idcard,
+      </if>
+      <if test="credPicUrl != null">
+        cred_pic_url,
+      </if>
+      <if test="credStatus != null">
+        cred_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wiremanId != null">
+        #{wiremanId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="headPicUrl != null">
+        #{headPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="credPicUrl != null">
+        #{credPicUrl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="credStatus != null">
+        #{credStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+    <!--更新电工个人信息  -->
+  <update id="updateByOpenIdSelective" parameterType="com.hujiahao.model.Wireman">
+  update wireman
+    <set>
+     <if test="wiremanId != null">
+        wireman_id = #{wiremanId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="headPicUrl != null">
+        head_pic_url = #{headPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="credPicUrl != null">
+        cred_pic_url = #{credPicUrl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="credStatus != null">
+        cred_status = #{credStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.hujiahao.model.Wireman">
+    update 'wireman'
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      head_pic_url = #{headPicUrl,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      cred_pic_url = #{credPicUrl,jdbcType=LONGVARCHAR},
+      cred_status = #{credStatus,jdbcType=VARCHAR}
+    where wireman_id = #{wiremanId,jdbcType=INTEGER}
+  </update>
+</mapper>

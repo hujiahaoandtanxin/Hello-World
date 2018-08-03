@@ -1,0 +1,60 @@
+package study_02;
+
+public class TestArray {
+/**
+ * 查表法：十进制-十六进制
+ * @param num
+ */
+public static void toHex(int num) {
+	//创建一个表
+	char [] chs= {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+	//一个临时容器
+	char [] arrays=new char[8];
+	//定义一个指针
+	int pos=arrays.length;
+	while(num!=0)	 {
+		int temp=num & 15;
+		System.out.println("temp="+temp);
+		arrays[--pos]=chs[temp];
+		num=num>>>4;
+		
+	}
+	System.out.println(pos);
+	System.out.println(arrays.length);
+	for (int y =pos;y<arrays.length;y++) {
+		System.out.print(arrays[y]+",");
+	}
+	System.out.println("");
+}	
+		public static void main(String[] args) {
+			toHex(60);
+			toBin(20);
+	}
+		/**
+		 * 十进制转换为二进制
+		 * @param num
+		 */
+		public static void toBin(int num) {
+			char []chs= {'0','1'};
+			char []arrays=new char[32];
+			int pos=arrays.length;
+			while(num!=0) {
+				int temp=num&1;
+				arrays[--pos]=chs[temp];
+				num=num>>>1;
+			}
+			for (int y =pos;y<arrays.length;y++) {
+				System.out.print(arrays[y]+",");
+			}
+		}
+		public static void commonTo(int num,int base,int offset) {
+			char [] chs= {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+			char []arrays=new char[32];
+			int pos=arrays.length;
+			while(num!=0) {
+				int temp=num&base;
+				arrays[--pos]=chs[temp];
+				num=num>>>offset;
+			}
+		}
+}

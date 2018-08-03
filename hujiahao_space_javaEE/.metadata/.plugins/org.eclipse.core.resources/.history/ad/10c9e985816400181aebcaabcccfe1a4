@@ -1,0 +1,11 @@
+
+public class Regex_study {
+	
+	public static void main(String[] args) {
+		String QQ="123456";
+		QQ.matches("[1-9][0-9]{10}");
+	}
+	public static void regexQQ() {
+		
+	}
+}

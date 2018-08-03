@@ -1,0 +1,22 @@
+package com.hujiahao.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hujiahao.dao.WiremanMapper;
+import com.hujiahao.model.Wireman;
+
+@Service
+public class WiremanService {
+	
+	@Autowired
+	WiremanMapper wiremanMapper;
+	
+	public selectWiremanByOpenid(String openid){
+		List<Wireman> wiremanList = wiremanMapper.selectWiremanByOpenid(openid);
+		return wiremanList;
+		
+	}
+}

@@ -1,0 +1,21 @@
+
+public class Regex_study {
+	
+	public static void main(String[] args) {
+		regexQQ();
+	}
+	/**
+	 * 验证QQ格式
+	 */
+	public static void regexQQ() {
+		String QQ="12345678";
+		//第一位数字是1到9，第二位开始有6个或者8个数字，0到9
+		boolean matches = QQ.matches("[1-9][\d]{6,8}");
+		if(matches==true) {
+			System.out.println("QQ格式正确");		
+		}else {
+			System.out.println("QQ格式有误");
+		}
+	}
+	
+}

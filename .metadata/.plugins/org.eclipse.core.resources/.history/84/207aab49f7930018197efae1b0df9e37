@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hujiahao.dao.BusinessTypeMapper">
+  <resultMap id="BaseResultMap" type="com.hujiahao.model.BusinessType">
+    <id column="business_type_id" jdbcType="INTEGER" property="businessTypeId" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="type_url" jdbcType="VARCHAR" property="typeUrl"/>
+  </resultMap>
+  
+
+  
+  <sql id="Base_Column_List">
+    business_type_id, type_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from 'business_type'
+    where business_type_id = #{businessTypeId,jdbcType=INTEGER}
+  </select>
+  
+  <!--查询部门名称对应的id  -->
+ <!--  <select id="selectBusinessTypeId" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	SELECT business_type_id FROM business_type WHERE type_name= #{typeName,jdbcType=VARCHAR}
+  </select> -->
+  
+  <!--分页查询部门信息  -->
+  <select id="selectBusinessPage" resultMap="BaseResultMap"> 
+  	SELECT * FROM  business_type  LIMIT #{currentPage},#{sumPage}
+  </select>
+  
+  <!--查询总页数  -->
+  <select id="selectSumPages" resultType="java.lang.Double">
+  SELECT COUNT(1)/4 FROM  business_type 
+  </select>
+  
+  <!--查询部门所有信息 包括图片和项目名称-->
+  <select id="selectBusinessAll" resultMap="BaseResultMap">
+  	SELECT * FROM business_type
+  </select>
+  
+  <!--关联order表 一对多查询  -->
+  <resultMap type="BusinessType" id="myBusinessTypeMap">
+   <id column="business_type_id" jdbcType="INTEGER" property="businessTypeId" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="type_url" jdbcType="VARCHAR" property="typeUrl"/>
+  	<association property="order" javaType="Order">
+  	<id column="order_id" jdbcType="INTEGER" property="orderId" />
+  	<result column="business_type_id" jdbcType="INTEGER" property="businessTypeId" />
+    <result column="wireman_id" jdbcType="INTEGER" property="wiremanId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="telphone" jdbcType="INTEGER" property="telphone" />
+  </association>
+  </resultMap>
+  
+  <!--部门表关联一张订单表 实现一对多查询 -->
+  <select id="selectOrderByBusinessType" resultMap="myBusinessTypeMap">
+  select * FROM business_type b, `order` o WHERE  b.type_name = "灯具维修"
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from 'business_type'
+    where business_type_id = #{businessTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hujiahao.model.BusinessType">
+    insert into business_type (business_type_id, type_name)
+    values (#{businessTypeId,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hujiahao.model.BusinessType">
+    insert into 'business_type'
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="businessTypeId != null">
+        business_type_id,
+      </if>
+      <if test="typeName != null">
+        type_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="businessTypeId != null">
+        #{businessTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hujiahao.model.BusinessType">
+    update 'business_type'
+    <set>
+      <if test="typeName != null">
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where business_type_id = #{businessTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hujiahao.model.BusinessType">
+    update 'business_type'
+    set type_name = #{typeName,jdbcType=VARCHAR}
+    where business_type_id = #{businessTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>

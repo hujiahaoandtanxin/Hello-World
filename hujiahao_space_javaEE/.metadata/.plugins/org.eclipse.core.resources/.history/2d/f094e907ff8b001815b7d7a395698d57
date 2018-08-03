@@ -1,0 +1,17 @@
+package com.hujiahao.dao;
+
+import com.hujiahao.model.businessType;
+
+public interface businessTypeMapper {
+    int deleteByPrimaryKey(Integer businessTypeId);
+
+    int insert(businessType record);
+
+    int insertSelective(businessType record);
+
+    businessType selectByPrimaryKey(Integer businessTypeId);
+
+    int updateByPrimaryKeySelective(businessType record);
+
+    int updateByPrimaryKey(businessType record);
+}

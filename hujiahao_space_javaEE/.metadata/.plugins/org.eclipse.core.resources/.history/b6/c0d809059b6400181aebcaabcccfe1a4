@@ -1,0 +1,15 @@
+import java.util.Date;
+
+public class Date_study {
+	/**
+	 *	时间原点，
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		//当前时间---以毫秒算的
+		long currentTimeMillis = System.currentTimeMillis();
+		System.out.println(currentTimeMillis);
+	}
+	
+	
+}

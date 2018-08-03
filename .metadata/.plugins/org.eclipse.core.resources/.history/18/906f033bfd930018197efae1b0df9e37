@@ -1,0 +1,132 @@
+package yqzdg;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.google.gson.Gson;
+import com.hujiahao.model.BusinessType;
+import com.hujiahao.model.Order;
+import com.hujiahao.model.User;
+import com.hujiahao.model.Wireman;
+import com.hujiahao.service.BusinessTypeService;
+import com.hujiahao.service.OrderService;
+import com.hujiahao.service.UserService;
+import com.hujiahao.service.WiremanService;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath:applicationContext.xml"})
+public class MyTest {
+
+	@Autowired
+	OrderService orderService;
+	
+	@Autowired
+	BusinessTypeService businessTypeService;
+	
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	WiremanService wiremanService;
+	
+	@Test
+	public void selectBusinessByPages() {
+		List<BusinessType> businessList = businessTypeService.selectByPages(0,4);
+		Gson gson = new Gson();
+		String json = gson.toJson(businessList);
+		System.out.println(json);
+	}
+	@Test
+	public void selectSumPages() {
+		Double selectSumPages = businessTypeService.selectSumPages();
+		System.out.println(selectSumPages);
+		
+	}
+	@Test
+	public void selectAllInfo() {
+		//重新包装订单信息  order,user,businessType		
+		Map  map = new HashMap();
+		List<Order> list0 = orderService.selectAll(0);		
+		List<Order> list1 = orderService.selectAll(1);
+		List<Order> list2 = orderService.selectAll(2);
+
+		map.put("未接单", list0);
+		map.put("未完成", list1);
+		map.put("未评价", list2);
+	
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(map);
+		System.out.println(json);
+		
+	}
+	@Test
+	public void updateTest() {
+		Integer result = orderService.updateToFinish(20221382);
+		System.out.println(result);
+	}
+	
+	@Test
+	public void deleteTest() {
+		int result = orderService.deleteOrderInfo(55656);
+		System.out.println(result);
+	}
+	
+	@Test
+	public void selectUser() {
+	 List<User> userList = userService.selectUserByOpenid("o4kLT5BGeid_7NY25XyUvRjrAQNE");
+	 	Gson gson = new Gson();
+	 	String json = gson.toJson(userList);
+		System.out.println(json);
+	}
+
+	@Test
+	public void updateUser() {
+		User user = new User();
+		user.setUsername("sdsad");
+		user.setOpenId("o4kLT5BGeid_7NY25XyUvRjrAQNE");
+		int result = userService.updateByOpenIdSelective(user);
+		System.out.println(result);
+	}
+	
+	@Test
+	public void selectOrderToWireman() {
+		List<Order> orderList = orderService.selectLimit(0);
+		Gson gson = new Gson();
+		String json = gson.toJson(orderList);
+		System.out.println(json);
+	}
+	
+	@Test
+	public void selectWiremanInfo() {
+		List<Wireman> wiremanList = wiremanService.selectWiremanByOpenid("o4kLT5BGeid_7NY25XyUvRjrAQNE");
+		Gson gson = new Gson();
+		String json = gson.toJson(wiremanList);
+		System.out.println(json);
+	}
+	
+	@Test
+	public void updateWireman() {
+		Wireman wireman = new Wireman();
+		wireman.setUsername("嘉濠");
+		wireman.setOpenId("o4kLT5BGeid_7NY25XyUvRjrAQNE");
+		int result = wiremanService.updateByOpenIdSelective(wireman);
+		System.out.println(result);
+	}
+	
+	@Test
+	public void selectBusinessAndOrder() {
+		List<BusinessType> orderList = businessTypeService.selectOrderByBusinessType("家用配电箱维修");
+		Gson gson = new Gson();
+		String json = gson.toJson(orderList);
+		System.out.println(json);
+		System.out.println(orderList.get(0).getOrderList().size());
+	}
+}

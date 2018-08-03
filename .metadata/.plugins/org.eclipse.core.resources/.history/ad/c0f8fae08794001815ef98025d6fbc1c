@@ -1,0 +1,151 @@
+package com.hujiahao.controller;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.hujiahao.model.Msg;
+import com.hujiahao.model.Order;
+import com.hujiahao.model.User;
+import com.hujiahao.model.Wireman;
+import com.hujiahao.service.WiremanService;
+
+@Controller
+public class WiremanController {
+	
+	
+	@Autowired
+	WiremanService wiremanService;
+	
+	/**
+	 * 通过openid来查询电工个人信息
+	 * 电工个人订单表
+	 * @param openid
+	 * @return
+	 */
+	@RequestMapping(value="/selectWiremanAllByOpenid",method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String,Object> selectWiremanAllByOpenid(@RequestParam("openid") String openid,String orderStatus){
+	System.out.println(openid);
+	Map  map = new HashMap();
+	List<Wireman> list1 = wiremanService.selectWiremanAllByOpenid(openid,"1");
+	List<Wireman> list2 = wiremanService.selectWiremanAllByOpenid(openid,"2");	
+	map.put("未完成", list1);
+	map.put("已完成", list2);
+		return map;
+	}
+	
+	/**
+	 * 通过openid来查询电工个人信息
+	 * 电工个人信息表
+	 * @param openid
+	 * @return
+	 */
+	@RequestMapping(value="/selectWiremanAllByOpenid",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Wireman> selectWiremanByOpenid(@RequestParam("openid") String openid){
+	List<Wireman> list = wiremanService.selectWiremanByOpenid(openid);
+	
+		return list;
+	}
+	
+	/**
+	 * 通过小程序拿到的openid来更新电工名字信息
+	 * @param openid
+	 * @return
+	 */
+	@RequestMapping(value = "/updateWiremanByOpenid", method = RequestMethod.GET)
+	@ResponseBody//默认把对象返回---变成json字符串
+	public Msg updateUserByOpenid(String username,@RequestParam("openid") String openid,Wireman wireman) {
+		wireman.setUsername(username);
+		wireman.setOpenId(openid);
+		int result = wiremanService.updateByOpenIdSelective(wireman);
+		System.out.println(result);
+		return Msg.success();
+	}
+	
+	/**
+	 * 通过小程序拿到的openid来更新电工密码信息
+	 * @param openid
+	 * @return
+	 */
+	@RequestMapping(value = "/updateWiremanPwdByOpenid", method = RequestMethod.GET)
+	@ResponseBody//默认把对象返回---变成json字符串
+	public Msg updateWiremanPwdByOpenid(String password,@RequestParam("openid") String openid,Wireman wireman) {
+		wireman.setPassword(password);
+		wireman.setOpenId(openid);
+		int result = wiremanService.updateByOpenIdSelective(wireman);
+		System.out.println(result);
+		return Msg.success();
+	}
+	
+	/**
+	 * 通过小程序拿到的openid来更新电工性别信息
+	 * @param openid
+	 * @return
+	 */
+	@RequestMapping(value = "/updateWiremanSexByOpenid", method = RequestMethod.GET)
+	@ResponseBody//默认把对象返回---变成json字符串
+	public Msg updateWiremanSexByOpenid(String sex,@RequestParam("openid") String openid,Wireman wireman) {
+		wireman.setSex(sex);
+		wireman.setOpenId(openid);
+		int result = wiremanService.updateByOpenIdSelective(wireman);
+		System.out.println(result);
+		return Msg.success();
+	}
+	
+	/**
+	 * 通过小程序拿到的openid来更新电工手机信息
+	 * @param openid
+	 * @return
+	 */
+	@RequestMapping(value = "/updateWiremanPhoneByOpenid", method = RequestMethod.GET)
+	@ResponseBody//默认把对象返回---变成json字符串
+	public Msg updateWiremanPhoneByOpenid(String phone,@RequestParam("openid") String openid,Wireman wireman) {
+		wireman.setMobilePhone(phone);
+		wireman.setOpenId(openid);
+		int result = wiremanService.updateByOpenIdSelective(wireman);
+		System.out.println(result);
+		return Msg.success();
+	}
+	
+	/**
+	 * 通过小程序拿到的openid来更新电工身份证信息
+	 * @param openid
+	 * @return
+	 */
+	@RequestMapping(value = "/updateWiremanIdtByOpenid", method = RequestMethod.GET)
+	@ResponseBody//默认把对象返回---变成json字符串
+	public Msg updateWiremanIdtByOpenid(String idcard,@RequestParam("openid") String openid,Wireman wireman) {
+		
+		wireman.setIdcard(idcard);
+		wireman.setOpenId(openid);
+		int result = wiremanService.updateByOpenIdSelective(wireman);
+		System.out.println(result);
+		return Msg.success();
+	}
+	
+	
+	
+}

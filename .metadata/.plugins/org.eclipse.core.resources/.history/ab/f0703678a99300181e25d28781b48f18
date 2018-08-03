@@ -1,0 +1,75 @@
+package com.hujiahao.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
+import com.hujiahao.model.BusinessType;
+import com.hujiahao.model.Wireman;
+import com.hujiahao.service.BusinessTypeService;
+
+@Controller
+public class BusinessTypeController {
+	
+	@Autowired
+	BusinessTypeService businessTypeService;
+	
+	/**
+	 * 前传---展示项目，还没分页
+	 * @return
+	 */
+	@RequestMapping(value = "/showProject", method = RequestMethod.GET)
+	@ResponseBody
+	public List<BusinessType> showProject() {
+		List<BusinessType> projectList=businessTypeService.selectProject();
+		return projectList;
+		
+	}
+	/**
+	 * 后传---展示项目，实现分页
+	 * @param currentPage
+	 * @param sumPage
+	 * @return
+	 */
+	@RequestMapping(value = "/showProjectByPage", method = RequestMethod.GET)
+	@ResponseBody
+	public List<BusinessType> showProjectByPage(@RequestParam("currentPage") Integer currentPage,@RequestParam("sumPage") Integer sumPage){
+		List<BusinessType> businessList = businessTypeService.selectByPages(currentPage, sumPage);	
+		return businessList;
+		
+	}
+	
+	@RequestMapping(value = "/getPages", method = RequestMethod.GET)
+	@ResponseBody
+	public Double getPages() {
+		Double pages= businessTypeService.selectSumPages();
+		Gson gson = new Gson();
+		String json = gson.toJson(pages);
+		System.out.println(json);
+		return pages;
+	}
+	
+	/**
+	 * 一对多查询 
+	 * BusinessType表关联多条order数据
+	 * 用typeName查询
+	 * @param typeName
+	 * @return
+	 */
+	@RequestMapping(value = "/selectOrderByBusinessType", method = RequestMethod.GET)
+	@ResponseBody//默认把对象返回---变成json字符串
+	public List<BusinessType> selectOrderByBusinessType(String typeName){
+		List<BusinessType> orderList = businessTypeService.selectOrderByBusinessType("灯具维修");
+		return orderList;
+		
+	}
+	
+	
+}

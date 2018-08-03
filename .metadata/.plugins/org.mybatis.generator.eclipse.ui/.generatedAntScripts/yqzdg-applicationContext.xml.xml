@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="generate">
+  <target name="generate">
+    <mybatis.generate configfile="D:\hujiahao_space_javaEE\yqzdg\src\main\resources\applicationContext.xml" />
+  </target>
+</project>

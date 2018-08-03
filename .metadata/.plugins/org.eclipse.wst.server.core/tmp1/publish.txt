@@ -1,0 +1,4 @@
+#Tomcat publish data
+#Tue Jul 31 17:46:05 CST 2018
+org.eclipse.jst.jee.server\:/binary\:G\:\\JavaProject\\apache-maven-3.5.4-bin\\apache-maven-3.5.4\\jar\\org\\springframework\\spring-web\\4.3.14.RELEASE\\spring-web-4.3.14.RELEASE.jar=G\:\\JavaProject\\apache-tomcat-8.5.32-windows-x64\\apache-tomcat-8.5.32\\webapps\\yqzdg\\WEB-INF\\lib\\spring-web-4.3.14.RELEASE.jar
+org.eclipse.jst.jee.server\:yqzdg=G\:\\JavaProject\\apache-tomcat-8.5.32-windows-x64\\apache-tomcat-8.5.32\\webapps\\yqzdg

@@ -1,0 +1,16 @@
+
+public class Regex_study {
+	
+	public static void main(String[] args) {
+		regexQQ();
+	}
+	public static void regexQQ() {
+		String QQ="123456";
+		boolean matches = QQ.matches("[1-9][0-9]{8}");
+		if(matches==true) {
+			System.out.println("QQ格式正确");		
+		}else {
+			System.out.println("QQ格式有误");
+		}
+	}
+}

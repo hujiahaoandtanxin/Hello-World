@@ -1,0 +1,9 @@
+import java.util.Date;
+
+public class Date_study {
+	public static void main(String[] args) {
+		long currentTimeMillis = System.currentTimeMillis();
+	}
+	
+	
+}

@@ -1,0 +1,21 @@
+package com.hujiahao.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.hujiahao.model.Msg;
+import com.hujiahao.model.Wireman;
+
+@Controller
+public class UploadFileController {
+	@RequestMapping(value = "/file", method = RequestMethod.POST)
+	@ResponseBody//默认把对象返回---变成json字符串
+	public Msg uploadFile(@RequestParam(value="file")byte[] file ,Wireman wireman,HttpServletRequest request) {
+		
+	}
+}

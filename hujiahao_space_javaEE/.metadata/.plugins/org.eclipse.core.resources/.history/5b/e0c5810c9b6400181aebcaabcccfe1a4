@@ -1,0 +1,15 @@
+import java.util.Date;
+
+public class Date_study {
+	/**
+	 *	时间原点，公元1970年1月1日 00：00：00
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		//当前时间---以毫秒算的
+		long currentTimeMillis = System.currentTimeMillis();
+		System.out.println(currentTimeMillis);
+	}
+	
+	
+}

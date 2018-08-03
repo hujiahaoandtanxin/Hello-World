@@ -1,0 +1,4 @@
+jdbc.jdbcUrl=jdbc:mysql://localhost:3306/zdg
+jdbc.driverClass=com.mysql.jdbc.Driver
+jdbc.user=root
+jdbc.password=3736163
